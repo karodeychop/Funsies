@@ -8,13 +8,16 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
-import org.json.*;
+import com.google.gson.*;
+
+
 
 
 //TODO: implement reading json array of TodoListItems from file, populate a ListView within the window with those items, and store upon application exit.
 public class TodoApplication extends Application {
 
     String PATH = System.getProperty("user.dir");
+    String testJson = "{description:\"Eat a lot of spaghetti.\",dateCreated:\"2021-05-12\", dateUpdated:\"2022-01-02\", goal:\"2029-1-03\"}";
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -58,7 +61,13 @@ public class TodoApplication extends Application {
 
     //implement reading json from file
     private void readDataFile() {
-        ;
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(TodoListItem.class, new TodoListItemDeserializer())
+        Gson gson = new Gson();
+        TodoListItem item1 = gson.fromJson(testJson, TodoListItem.class);
+
+        System.out.println(item1);
+
     }
 
     public static void main(String[] args) {
